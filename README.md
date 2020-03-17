@@ -1,5 +1,5 @@
 ## pam_usb working with debian buster
-### one time pad not yet done
+#### one time pad not yet done, possibly works also with debian bullseye
 
 
 
