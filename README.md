@@ -1,3 +1,8 @@
+## pam_usb working with debian buster
+### one time pad not yet done
+
+
+
 pam\_usb
 ========
 
