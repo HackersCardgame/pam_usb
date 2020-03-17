@@ -1,4 +1,4 @@
-## pam_usb working with debian buster
+## pam_usb working with debian buster ![build](https://api.travis-ci.org/braindef/pam_usb.svg?branch=master)
 #### one time pad not yet done, possibly works also with debian bullseye
 
 
