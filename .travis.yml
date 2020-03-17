@@ -1,4 +1,11 @@
 language: c++
+
+before_install:
+        - sudo ./prerequisites.sh
+
+script:
+        - make
+
 matrix:
   - dist: precise
     compiler: clang
