@@ -5,20 +5,9 @@ before_install:
 
 script:
         - make
+        - sudo make install
 
 matrix:
-  - dist: precise
-    compiler: clang
-    os: linux
-    sudo: required
-  - dist: xenial
-    compiler: gcc
-    os: linux
-    sudo: required
-  - dist: xenial
-    compiler: clang
-    os: linux
-    sudo: required
   - dist: bionic
     complier: clang
     os: linux
