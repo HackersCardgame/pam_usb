@@ -1,12 +1,10 @@
 language: cpp
   include:
   - os: linux
-    matrix: 
-    - include:
-        - xenial
-        - bionic
-        - precise
-        - trusty
+    - dist: xenial
+    - dist: bionic
+    - dist: precise
+    - dist: trusty
     before_install:
     - sudo ./prerequisites.sh
     compiler:
