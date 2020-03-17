@@ -25,6 +25,14 @@ env:
       - OS=debian DIST=sid ARCH=i386
   include:
   - os: linux
+<<<<<<< HEAD
+    matrix: 
+        - dist: xenial
+        - dist: bionic
+        - dist: precise
+        - dist: trusty
+=======
+>>>>>>> cccedf4bb29b52bf64b415aa6398d4a34eab5c79
     before_install:
     - sudo ./prerequisites.sh
     compiler:
