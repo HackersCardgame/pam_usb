@@ -93,7 +93,7 @@ static char	*pusb_volume_probe(t_pusb_options *opts,
 {
 	int				maxtries = 0;
 	int				i;
-	log_info("pusb_volume_probe(vol. uuid: %s)\n", opts->device.volume_uuid);
+	log_error("pusb_volume_probe(vol. uuid: %s)\n", opts->device.volume_uuid);
 	if (!*(opts->device.volume_uuid))
 	{
 		log_error("No UUID configured for device\n");
@@ -118,7 +118,7 @@ static char	*pusb_volume_probe(t_pusb_options *opts,
 		}
 		else
 		{
-			log_info("IdUuid found: %s\n", opts->device.volume_uuid);
+			log_error("IdUuid found: %s\n", opts->device.volume_uuid);
 			return (udi);
 		}
 	}
@@ -128,7 +128,7 @@ static char	*pusb_volume_probe(t_pusb_options *opts,
 
 char *pusb_volume_get(t_pusb_options *opts, DBusConnection *dbus)
 {
-	log_info("pusb_volume_get(%s)\n", opts->device.volume_uuid);
+	log_error("pusb_volume_get(%s)\n", opts->device.volume_uuid);
 	char	*volume_udi;
 	char	*mount_point;
 
@@ -137,7 +137,7 @@ char *pusb_volume_get(t_pusb_options *opts, DBusConnection *dbus)
 		log_error("volume not found: %s\n", volume_udi);
 		return (NULL);
 	}	
-	log_info("volume found %s\n", opts->device.volume_uuid);
+	log_error("volume found %s\n", opts->device.volume_uuid);
 	mount_point = pusb_volume_mount_path(opts, volume_udi, dbus);
 	if (mount_point)
 	{

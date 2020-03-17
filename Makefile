@@ -1,5 +1,5 @@
 # Set to 'yes' to include debugging information, e.g. DEBUG=yes make -e
-DEBUG		:= no
+DEBUG		:= yes
 
 PREFIX		?= /usr
 #LIBDIR		?= /usr/lib64

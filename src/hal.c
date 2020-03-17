@@ -29,7 +29,7 @@ int debug=1;
 
 DBusConnection *pusb_hal_dbus_connect(void)
 {
-	if (debug) log_info("pusb_hal_dbus_connect(void){}\n");
+	//if (debug) log_info("pusb_hal_dbus_connect(void){}\n");
 	DBusConnection	*dbus = NULL;
 	DBusError		error;
 
@@ -60,7 +60,7 @@ DBusConnection *pusb_hal_dbus_connect(void)
 
 void pusb_hal_dbus_disconnect(DBusConnection *dbus)
 {
-	if (debug) log_info("pusb_hal_dbus_disconnect(...){}\n");
+	//if (debug) log_info("pusb_hal_dbus_disconnect(...){}\n");
 	dbus_connection_unref(dbus);
 }
 
@@ -250,7 +250,7 @@ int pusb_hal_check_property(DBusConnection *dbus,
 		const char *name,
 		const char *value)
 {
-	if (debug) log_warning("pusb_hal_check_property(...){}\n");
+	//if (debug) log_warning("pusb_hal_check_property(...){}\n");
 	char	*data;
 	int		retval;
 
@@ -270,7 +270,7 @@ int pusb_hal_check_property(DBusConnection *dbus,
  */
 int find_value_by_key_for_udisk2 (const char *name, char *_value)
 {
-	if (debug) log_warning("find_value_by_key_udisk2(...){}\n");
+	//if (debug) log_warning("find_value_by_key_udisk2(...){}\n");
 	static UDisksClient *client = NULL;
 	GError *error = NULL;
 	GList *objects;
@@ -331,12 +331,12 @@ int pusb_hal_check_property_for_udisk2(DBusConnection *dbus, const char *name, c
 {
 	int		retval;
 
-	if (debug) log_warning("pusb_hal_check_property_for_udisk2(%s, %s){}\n", name, value);
+	//if (debug) log_warning("pusb_hal_check_property_for_udisk2(%s, %s){}\n", name, value);
 
 	retval = find_value_by_key_for_udisk2(name, value);
 
-	if (!retval) log_error("item not found: %s, %s\n", name, value);
-	else log_info("item found: %s: %s\n", name, value);
+	//if (!retval) log_error("item not found: %s, %s\n", name, value);
+	//else log_info("item found: %s: %s\n", name, value);
 
 	return (retval);
 }
@@ -366,7 +366,7 @@ char **pusb_hal_find_all_items(DBusConnection *dbus, int *count)
 	reply = dbus_connection_send_with_reply_and_block(dbus,
 													  message, -1,
 													  &error);
-	log_info("post pessage\n");
+	//log_info("post pessage\n");
 	dbus_message_unref(message);
 	if (dbus_error_is_set(&error)) {
 		log_error("Error communicating 2 with D-BUS\n");
@@ -392,7 +392,7 @@ char **pusb_hal_find_all_items(DBusConnection *dbus, int *count)
 		return (NULL);
 	}
 	*count = n_devices;
-	log_info("devices: %i", count);
+	//log_info("devices: %i", count);
 	return (devices);
 }
 
@@ -453,7 +453,7 @@ char **pusb_hal_find_all_items_udisk2(DBusConnection *dbus, int *count)
 char *pusb_hal_find_item(DBusConnection *dbus,
 		...)
 {
-	if (debug) log_info("pusb_hal_find_item(...){}\n");
+	//if (debug) log_info("pusb_hal_find_item(...){}\n");
 	char	**devices;
 	int		n_devices;
 	char	*udi = NULL;
@@ -505,7 +505,7 @@ char *pusb_hal_find_item(DBusConnection *dbus,
 int pusb_hal_find_item_for_udisk2(DBusConnection *dbus,
 		...)
 {
-	if (debug) log_info("pusb_hal_find_item_for_udisk2(...){}\n");
+	//if (debug) log_info("pusb_hal_find_item_for_udisk2(...){}\n");
 	va_list	ap;
 
 	char	*key = NULL;
@@ -517,7 +517,7 @@ int pusb_hal_find_item_for_udisk2(DBusConnection *dbus,
 		char	*value = NULL;
 
 		value = va_arg(ap, char *);
-		log_info("key: %s, value %s\n", key, value);
+		//log_info("key: %s, value %s\n", key, value);
 		if (!value || *value == 0x0)
 		{
 			continue;
@@ -530,6 +530,6 @@ int pusb_hal_find_item_for_udisk2(DBusConnection *dbus,
 	}
 
 	va_end(ap);
-	log_info("pusb_hal_find_item_for_udisk2(...) matches: %i\n", match);
+	//log_info("pusb_hal_find_item_for_udisk2(...) matches: %i\n", match);
 	return match;
 }
