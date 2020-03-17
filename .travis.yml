@@ -1,16 +1,22 @@
-language: cpp
-  include:
-  - os: linux
-    - dist: xenial
-    - dist: bionic
-    - dist: precise
-    - dist: trusty
-    before_install:
-    - sudo ./prerequisites.sh
-    compiler:
-    - matrix
-      - gcc
-      - clang
-    script:
-    - make
+matrix:
+  - dist: precise
+    compiler: clang
+    os: linux
+    sudo: required
+  - dist: xenial
+    compiler: gcc
+    os: linux
+    sudo: required
+  - dist: xenial
+    compiler: clang
+    os: linux
+    sudo: required
+  - dist: bionic
+    complier: clang
+    os: linux
+    sudo: required
+  - dist: bionic
+    complier: gcc
+    os: linux
+    sudo: required
 
