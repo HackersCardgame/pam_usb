@@ -1,0 +1,12 @@
+language: cpp
+matrix:
+  include:
+  - os: linux
+    dist: buster
+    before_install:
+    - sudo ./prerequisites.sh
+    compiler:
+    - gcc
+    script:
+    - make
+
