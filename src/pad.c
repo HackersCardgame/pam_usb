@@ -265,15 +265,22 @@ static int pusb_pad_compare(t_pusb_options *opts, const char *volume,
 int pusb_pad_check(t_pusb_options *opts, DBusConnection *dbus,
 		const char *user)
 {
-	char			*volume = NULL;
-	int				retval = 0;
-
+	char *volume = NULL;
+	int retval = 0;
+	log_info("pusb_pad_check(...)\n");
 	volume = pusb_volume_get(opts, dbus);
 	if (!volume)
+	{
+		log_error("no volume not fount");
 		return (0);
+	}
+	log_info("volume found");
 	retval = pusb_pad_compare(opts, volume, user);
 	if (retval)
+	{
+		log_info("updating pad...");
 		pusb_pad_update(opts, volume, user);
+	}
 	else
 		log_error("Pad checking failed !\n");
 	pusb_volume_destroy(volume);

@@ -43,18 +43,18 @@ static int pusb_volume_mount(t_pusb_options *opts, char *udi,
 		log_error("Unable to retrieve device filename\n");
 		return (0);
 	}
-	log_debug("Attempting to mount device %s with label %s\n",
+	log_error("Attempting to mount device %s with label %s\n",
 			devname, tempname);
 	snprintf(command, sizeof(command), "pmount -A -s %s %s",
 			 devname, tempname);
-	log_debug("Executing \"%s\"\n", command);
+	log_error("Executing \"%s\"\n", command);
 	if (system(command) != 0)
 	{
 		log_error("Mount failed\n");
 		return (0);
 	}
 
-	log_debug("Mount succeeded.\n");
+	log_error("Mount succeeded.\n");
 	return (1);
 }
 
@@ -67,7 +67,7 @@ static char *pusb_volume_mount_path(t_pusb_options *opts, char *udi, DBusConnect
 	}
 	if (is_mounted != TRUE)
 	{
-		log_debug("Device %s is not mounted\n", udi);
+		log_error("Device %s is not mounted\n", udi);
 		return (NULL);
 	}
 
@@ -75,16 +75,16 @@ static char *pusb_volume_mount_path(t_pusb_options *opts, char *udi, DBusConnect
 	char **mount_pathes = pusb_hal_get_string_array_property(dbus, udi, "DeviceMountPaths", &n_mount);
 	if (!mount_pathes)
 	{
-		log_debug("Failed to retrieve device %s mount path\n", udi);
+		log_error("Failed to retrieve device %s mount path\n", udi);
 		return (NULL);
 	}
 	if (n_mount > 1)
 	{
-		log_debug("Device %s is mounted more than once\n", udi);
+		log_error("Device %s is mounted more than once\n", udi);
 	}
 	char *mount_path = xstrdup(mount_pathes[0]);
 	pusb_hal_free_string_array(mount_pathes, n_mount);
-	log_debug("Device %s is mounted on %s\n", udi, mount_path);
+	log_error("Device %s is mounted on %s\n", udi, mount_path);
 	return (mount_path);
 }
 
@@ -93,45 +93,55 @@ static char	*pusb_volume_probe(t_pusb_options *opts,
 {
 	int				maxtries = 0;
 	int				i;
-
+	log_info("pusb_volume_probe(vol. uuid: %s)\n", opts->device.volume_uuid);
 	if (!*(opts->device.volume_uuid))
 	{
-		log_debug("No UUID configured for device\n");
+		log_error("No UUID configured for device\n");
 		return (NULL);
 	}
-	log_debug("Searching for volume with uuid %s\n", opts->device.volume_uuid);
+	log_warning("Searching for volume with uuid %s\n", opts->device.volume_uuid);
 	maxtries = ((opts->probe_timeout * 1000000) / 250000);
+	log_warning("maxtries: %i, probe_timeout: %i\n", maxtries, opts->probe_timeout);
 	for (i = 0; i < maxtries; ++i)
 	{
 		char	*udi = NULL;
 
 		if (i == 1)
 			log_info("Probing volume (this could take a while)...\n");
-		udi = pusb_hal_find_item(dbus,
+		udi = pusb_hal_find_item_for_udisk2(dbus,
 				"IdUuid", opts->device.volume_uuid,
 				NULL);
 		if (!udi)
 		{
+			log_error("IdUuid not found: %s\n", opts->device.volume_uuid);
 			usleep(250000);
-			continue;
 		}
-		return (udi);
+		else
+		{
+			log_info("IdUuid found: %s\n", opts->device.volume_uuid);
+			return (udi);
+		}
 	}
+	log_error("return (NULL)\n");
 	return (NULL);
 }
 
 char *pusb_volume_get(t_pusb_options *opts, DBusConnection *dbus)
 {
+	log_info("pusb_volume_get(%s)\n", opts->device.volume_uuid);
 	char	*volume_udi;
 	char	*mount_point;
 
 	if (!(volume_udi = pusb_volume_probe(opts, dbus)))
+	{
+		log_error("volume not found: %s\n", volume_udi);
 		return (NULL);
-	log_debug("Found volume %s\n", opts->device.volume_uuid);
+	}	
+	log_info("volume found %s\n", opts->device.volume_uuid);
 	mount_point = pusb_volume_mount_path(opts, volume_udi, dbus);
 	if (mount_point)
 	{
-		log_debug("Volume is already mounted.\n");
+		log_error("Volume is already mounted.\n");
 		return (mount_point);
 	}
 	if (!pusb_volume_mount(opts, volume_udi, dbus))
@@ -155,12 +165,12 @@ void pusb_volume_destroy(char *mntpoint)
 	{
 		char	command[1024];
 
-		log_debug("Attempting to umount %s\n",
+		log_error("Attempting to umount %s\n",
 				mntpoint);
 		snprintf(command, sizeof(command), "pumount %s", mntpoint);
-		log_debug("Executing \"%s\"\n", command);
+		log_error("Executing \"%s\"\n", command);
 		if (!system(command))
-			log_debug("Umount succeeded.\n");
+			log_error("Umount succeeded.\n");
 		else
 			log_error("Unable to umount %s\n", mntpoint);
 	}

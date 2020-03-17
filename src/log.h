@@ -22,6 +22,7 @@
 
 void __log_debug(const char *file, int line, const char *fmt, ...);
 void log_error(const char *fmt, ...);
+void log_warning(const char *fmt, ...);
 void log_info(const char *fmt, ...);
 void pusb_log_init(t_pusb_options *opts);
 

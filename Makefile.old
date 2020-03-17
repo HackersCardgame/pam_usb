@@ -1,25 +1,15 @@
 # Set to 'yes' to include debugging information, e.g. DEBUG=yes make -e
-DEBUG		:= yes
+DEBUG		:= no
 
 PREFIX		?= /usr
-#LIBDIR		?= /usr/lib64
-LIBDIR		?= /usr/lib
+LIBDIR		?= lib
 
 # compiler/linker options
 CC		:= gcc
-CFLAGS		:= $(CFLAGS) -Wall -I/usr/include/udisks2 -fPIC `pkg-config --cflags libxml-2.0` \
-	`pkg-config --cflags dbus-1` \
-	`pkg-config --cflags udisks2` \
-	`pkg-config --cflags glib-2.0` \
-	`pkg-config --cflags gobject-2.0` \
-	`pkg-config --cflags gio-2.0`
-
+CFLAGS		:= $(CFLAGS) -Wall -fPIC `pkg-config --cflags libxml-2.0` \
+	`pkg-config --cflags dbus-1`
 LIBS		:= `pkg-config --libs libxml-2.0` \
-	`pkg-config --libs dbus-1` \
-	`pkg-config --libs udisks2` \
-	`pkg-config --libs glib-2.0` \
-	`pkg-config --libs gobject-2.0` \
-	`pkg-config --libs gio-2.0`
+	`pkg-config --libs dbus-1`
 
 # common source files
 SRCS		:= src/conf.c \
@@ -88,7 +78,7 @@ clean		:
 
 install		: all
 		$(MKDIR) -p $(CONFS_DEST) $(DOCS_DEST) $(MANS_DEST) $(TOOLS_DEST) $(PAM_USB_DEST)
-		$(INSTALL) -m644 $(PAM_USB) $(PAM_USB_DEST)
+		$(INSTALL) -m755 $(PAM_USB) $(PAM_USB_DEST)
 		$(INSTALL) -m755 $(PAMUSB_CHECK) $(TOOLS_SRC)/$(PAMUSB_CONF) $(TOOLS_SRC)/$(PAMUSB_AGENT) $(TOOLS_DEST)
 		$(INSTALL) -b -m644 $(CONFS) $(CONFS_DEST)
 		$(INSTALL) -m644 $(DOCS) $(DOCS_DEST)

@@ -43,6 +43,8 @@ static void pusb_log_output(int level, const char *format, va_list ap)
 				fprintf(stderr, "\033[01;31m*\033[00m ");
 			else if (level == LOG_NOTICE)
 				fprintf(stderr, "\033[01;32m*\033[00m ");
+			else if (level == LOG_WARNING)
+				fprintf(stderr, "\033[01;33m*\033[00m ");
 		}
 		else
 			fprintf(stderr, "* ");
@@ -76,6 +78,19 @@ void log_error(const char *fmt, ...)
 
 	va_start(ap, fmt);
 	pusb_log_output(LOG_ERR, fmt, ap);
+	va_end(ap);
+}
+
+void log_warning(const char *fmt, ...)
+{
+	va_list	ap;
+
+	va_start(ap, fmt);
+	pusb_log_syslog(LOG_WARNING, fmt, ap);
+	va_end(ap);
+
+	va_start(ap, fmt);
+	pusb_log_output(LOG_WARNING, fmt, ap);
 	va_end(ap);
 }
 
