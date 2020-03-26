@@ -1,5 +1,6 @@
 ### pam_usb working with debian buster 
-### at the moment it seems to work with debian bullseye too
+### it seems to work with ubuntu eaon too
+### at the moment it seems to work with debian bullseye too (still testing, things can change)
 ## https://www.travis-ci.org/github/braindef/pam_usb: ![https://www.travis-ci.org/github/braindef/pam_usb](https://api.travis-ci.org/braindef/pam_usb.svg?branch=master)
 #### one time pad not yet done, possibly works also with debian bullseye
 
